@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Registration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</h:head>
+
+<h:body>
+    <p:growl id="growl" life="2000" sticky="true"/>
+
+    Регистрация:
+    <h:form>
+        <h:panelGrid columns="2">
+
+            Add new Account:
+            <h:inputText value="#{registrationCDI.email}"/>
+
+            Set password:
+            <h:inputText value="#{registrationCDI.password}"/>
+
+            prime:
+            <p:commandButton value="Registration" id="ajax" update="growl" actionListener="#{registrationCDI.buttonAction}" styleClass="ui-priority-primary" />
+        </h:panelGrid>
+    </h:form>
+    <a href="list.xhtml">list</a>
+
+</h:body>
+
+</html>

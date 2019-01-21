@@ -7,54 +7,17 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-import static javax.faces.component.UIInput.isEmpty;
 
 
 
 @Stateless
 public class UserDAO {
 
-
     @PersistenceContext(unitName = "examplePU")
     private EntityManager em;
 
-    public boolean checkEnter (String email, String password)
-    {
-        if (isEmpty(email) || isEmpty(password))
-            return false;
-
-        User user = em.find(User.class, email);
-        if (user == null)
-            return false;
-
-        if(password.equals(user.getPassword()))
-            return true;
-
-
-        return false;
-    }
-
-    public boolean addNewIndicator(Indication.IndicationType indicationType, BigDecimal indication, String date) throws ParseException
-    {
-        if(indicationType == null || indication == null)
-            return false;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-
-        Indication newIndication = new Indication(indicationType, indication, dateFormat.parse(date));
-
-        em.persist(newIndication);
-
-        return true;
-
-    }
 
     public boolean createNewUser(String email, String password)
     {
@@ -68,6 +31,33 @@ public class UserDAO {
         em.persist(newUser);
 
         return true;
+    }
+
+    public boolean checkValidEmail(String email){
+        Query query = em.createQuery("select u from User u where email = ?1");
+        query.setParameter(1,email);
+
+        List<User> validEmail = query.getResultList();
+
+        if(validEmail.size() != 0)
+            return false;
+        else
+            return true;
+    }
+
+    public boolean checkEnter(String email, String password){
+        Query query = em.createQuery("select u from User u where email = ?1 and password = ?2");
+
+        query.setParameter(1,email);
+        query.setParameter(2, password);
+
+        List<User> existUser = query.getResultList();
+
+        if(existUser.size() != 0)
+            return true;
+        else
+            return false;
+
     }
 
     public List<User> getAllUsers ()

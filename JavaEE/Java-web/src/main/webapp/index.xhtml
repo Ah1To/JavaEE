@@ -12,27 +12,11 @@
     </h:head>
 
     <h:body>
-        <p:growl id="growl" life="2000" sticky="true"/>
+        <a href="faces/registration.xhtml">Registration</a>
+        <a href="faces/list.xhtml">Список пользователей</a>
+        <a href="faces/login.xhtml">Вход</a>
 
-
-        <h:form>
-            <h:panelGrid columns="2">
-
-            Add new Account:
-            <h:inputText value="#{userCDI.email}"/>
-
-            Set password:
-            <h:inputText value="#{userCDI.password}"/>
-
-            prime:
-            <p:commandButton value="Submit" id="ajax" update="growl" actionListener="#{userCDI.buttonAction}" styleClass="ui-priority-primary" />
-            </h:panelGrid>
-        </h:form>
-         <a href="faces/list.xhtml">list</a>
     </h:body>
-
-
-
 
 </html>
 

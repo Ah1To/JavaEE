@@ -21,21 +21,25 @@ public class UserCDI implements Serializable {
 
     private List<User> users;
 
-    private boolean loginSuccess;
-    private boolean createSuccess;
 
     @EJB
     private UserDAO userDAO;
 
-    public void checkPassword() {
-        loginSuccess = userDAO.checkEnter(email, password);
-    }
 
-    public void createUser() {
-        createSuccess = userDAO.createNewUser(email, password);
-    }
+
 
     public void buttonAction(ActionEvent actionEvent) {
+        if ((email.length() < 3 || email.length() > 11)) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Insert email 4-12 char",  null);
+            addMessage(message);
+            return;
+            }
+
+        if ((password.length() < 5 || password.length() > 17)) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Insert password 6-18 char",  null);
+            addMessage(message);
+            return;
+        }
 
         if(userDAO.createNewUser(email, password)){
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "You is registred " + email,  null);
@@ -51,6 +55,8 @@ public class UserCDI implements Serializable {
 
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
+
+
 
     public List<User> getAllUsers(){
         users = userDAO.getAllUsers();
@@ -76,22 +82,6 @@ public class UserCDI implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public boolean isLoginSuccess() {
-        return loginSuccess;
-    }
-
-    public void setLoginSuccess(Boolean loginSuccess) {
-        this.loginSuccess = loginSuccess;
-    }
-
-    public boolean isCreateSuccess() {
-        return createSuccess;
-    }
-
-    public void setCreateSuccess(Boolean createSuccess) {
-        this.createSuccess = createSuccess;
     }
 
     public UserDAO getUserDAO() {
